@@ -11,7 +11,7 @@ Installation
 
 Install Samurai just like any other package.
 
-    pip install "samurai"
+    pip install "samurai" 
 
 On most of the systems, you will need the `sudo` permissions if you are doing a system wide
 install.
