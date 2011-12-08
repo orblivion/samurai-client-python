@@ -80,7 +80,7 @@ def _xml_outer_node_to_dict(xml_node):
                     if element_type == 'integer':
                         out_data[element_name] = int(inner_node.nodeValue)
                     elif element_type == 'datetime':
-                        out_data[element_name] = datetime.strptime(inner_node.nodeValue, "%Y-%m-%d %H:%M:%S UTC")
+                        out_data[element_name] = datetime.strptime(inner_node.nodeValue, "%Y-%m-%dT%H:%M:%SZ")
                     elif element_type == 'boolean':
                         out_data[element_name] = {'true':True, 'false':False} [ inner_node.nodeValue ]
                     else:
