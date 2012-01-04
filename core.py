@@ -306,7 +306,7 @@ class Transaction(RemoteObject):
     reference_id        = None
     transaction_token   = None
     created_at          = None
-    descriptor          = {}
+    description          = {}
     custom              = {}
     transaction_type    = None
     amount              = None
@@ -314,10 +314,10 @@ class Transaction(RemoteObject):
     processor_success     = None
     payment_method      = None
 
-    field_names = ["reference_id", "created_at", "descriptor", "custom", "transaction_type", "amount",
+    field_names = ["reference_id", "created_at", "description", "custom", "transaction_type", "amount",
                     "currency_code", "processor_success", "payment_method", "info", "errors", "transaction_token"]
 
-    json_field_names = ["custom", "descriptor"]
+    json_field_names = ["custom", "description"]
 
     head_xml_element_name = "transaction"
 
@@ -366,7 +366,7 @@ class Transaction(RemoteObject):
         return success
 
     def _add_json_fields(self, out_data):
-        for field in ['custom', 'descriptor']:
+        for field in ['custom', 'description']:
             if getattr(self, field) != None:
                 try:
                     out_data['transaction'][field] = json.dumps(getattr(self, field))

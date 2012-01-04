@@ -565,7 +565,7 @@ class TestTransactionMethods(unittest.TestCase):
 
         expected_after = {
             "custom": {'a':'b'},
-            "descriptor": {'c':'d'},
+            "description": {'c':'d'},
             "transaction_type":"purchase",
             "amount":"20.5",
             "currency_code":"USD",
@@ -580,14 +580,14 @@ class TestTransactionMethods(unittest.TestCase):
         for attr_name in expected_none:
             self.assertEqual(getattr(transaction, attr_name), None, attr_name + " not None")
 
-        self.assertEqual(transaction.descriptor, {})
+        self.assertEqual(transaction.description, {})
         self.assertEqual(transaction.custom, {})
 
         self.assertEqual(transaction.errors, [])
         self.assertEqual(transaction.info, [])
 
         transaction.custom = {'a':'b'}
-        transaction.descriptor = {'c':'d'}
+        transaction.description = {'c':'d'}
 
         # Need unique values to prevent duplicate transaction errors
         billing_reference = "b" + str(int(time.time()))
@@ -620,7 +620,7 @@ class TestTransactionMethods(unittest.TestCase):
         transaction = Transaction(feefighters = feefighters, payment_method = payment_method, processor_token = test_credentials.processor_token, do_fetch= False)
 
         transaction.custom = {'a':'b'}
-        transaction.descriptor = {'c':'d'}
+        transaction.description = {'c':'d'}
         transaction.payment_method.payment_method_token = "bad_token" # just to throw a wrench in the works
 
         self.assertEqual(transaction.purchase(20.5, "USD", "12345", "321"), False)
@@ -639,19 +639,19 @@ class TestTransactionMethods(unittest.TestCase):
 
         transaction = Transaction(feefighters = feefighters, payment_method = payment_method, processor_token = test_credentials.processor_token, do_fetch= False)
         transaction.custom = {'a':'b'}
-        transaction.descriptor = {'c':'d'}
+        transaction.description = {'c':'d'}
         self.assertEqual(transaction.purchase(20.5, "USD", billing_reference, customer_reference), True)
         self.assertEqual(type(transaction.payment_method), PaymentMethod) # make sure we don't get dicts in the payment method after bad purchases 
 
         transaction = Transaction(feefighters = feefighters, payment_method = payment_method, processor_token = test_credentials.processor_token, do_fetch= False)
         transaction.custom = {'a':'b'}
-        transaction.descriptor = {'c':'d'}
+        transaction.description = {'c':'d'}
         self.assertEqual(transaction.purchase(20.5, "USD", billing_reference, customer_reference), False)
         self.assertEqual(type(transaction.payment_method), PaymentMethod) # make sure we don't get dicts in the payment method after bad purchases 
 
         transaction = Transaction(feefighters = feefighters, payment_method = payment_method, processor_token = test_credentials.processor_token, do_fetch= False)
         transaction.custom = {'a':'b'}
-        transaction.descriptor = {'c':'d'}
+        transaction.description = {'c':'d'}
         self.assertEqual(transaction.purchase(20.5, "USD", billing_reference + "0", customer_reference + "0"), True)
         self.assertEqual(type(transaction.payment_method), PaymentMethod) # make sure we don't get dicts in the payment method after bad purchases 
 
@@ -662,7 +662,7 @@ class TestTransactionMethods(unittest.TestCase):
         transaction = Transaction(feefighters = feefighters, payment_method = payment_method, processor_token = test_credentials.processor_token, do_fetch= False)
 
         transaction.custom = {'a':'b'}
-        transaction.descriptor = {'c':'d'}
+        transaction.description = {'c':'d'}
 
         # Need unique values to prevent duplicate transaction errors
         billing_reference = "b" + str(int(time.time()))
@@ -672,10 +672,10 @@ class TestTransactionMethods(unittest.TestCase):
 
         transaction_test = Transaction(feefighters = feefighters, reference_id = transaction.reference_id, do_fetch= False)
 
-        for field_name in set(Transaction.field_names) - set(['info', 'errors', 'reference_id', 'descriptor', 'custom']):
+        for field_name in set(Transaction.field_names) - set(['info', 'errors', 'reference_id', 'description', 'custom']):
             self.assertEqual(getattr(transaction_test, field_name), None, field_name + " not None: " + str(getattr(transaction_test, field_name)))
 
-        self.assertEqual(transaction_test.descriptor, {})
+        self.assertEqual(transaction_test.description, {})
         self.assertEqual(transaction_test.custom, {})
 
         self.assertTrue(transaction_test.fetch(), transaction_test.errors)
