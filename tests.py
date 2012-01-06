@@ -239,6 +239,7 @@ class TestBasicRequest(unittest.TestCase):
            'last_name': "Actualperson",
            'address_1': "321 Real Street",
            'expiry_year': 2018,
+           'expiry_month': 2,
         }}
 
         payment_method_token = _new_payment_method_token()
@@ -249,11 +250,13 @@ class TestBasicRequest(unittest.TestCase):
         self.assertEqual(response['payment_method']['last_name'], "Actualperson")
         self.assertNotEqual(response['payment_method']['expiry_year'], "2018") # make sure it's an int, not string.
         self.assertEqual(response['payment_method']['expiry_year'], 2018)
+        self.assertEqual(response['payment_method']['expiry_month'], 2)
         self.assertEqual(response['payment_method']['address_1'], "321 Real Street")
 
+        # new token
+        self.assertNotEqual(response['payment_method']['payment_method_token'], payment_method_token)
+
         # unchanged
-        self.assertEqual(response['payment_method']['payment_method_token'], payment_method_token)
-        self.assertEqual(response['payment_method']['expiry_month'], 1)
         self.assertEqual(response['payment_method']['first_name'], "Nobody")
 
 
